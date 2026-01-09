@@ -3,7 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>mTLS C2 Documentation</title>
+    <link rel="icon" type="image/png" sizes="16x16" href="https://raw.githubusercontent.com/xen-i0/xenc2/refs/heads/main/black-red-darth-vader-head-sticker-cover-removebg-preview.png" crossorigin="anonymous">
+    <title>XEN C2 Docs</title>
     <style>
         :root {
             --bg-main: #0b0e14;
@@ -188,7 +189,7 @@
 
 <div class="container">
     <aside>
-        <div class="logo">mTLS C2</div>
+        <div class="logo">XEN C2</div>
         <nav>
             <a href="#" class="nav-item active" onclick="showSection('home', event)">Overview</a>
             <a href="#" class="nav-item" onclick="showSection('listeners', event)">Listeners</a>
@@ -201,14 +202,14 @@
     <main id="main-content">
         <section id="home" class="content-section active">
             <h1>Getting Started</h1>
-            <p>Hey there. This is a tool I put together for red teamers who need a simple, reliable way to manage agents without tripping every alarm in the building. It uses mTLS, so even if a blue teamer finds your IP, they can't see what's going on inside the tunnel.</p>
+            <p>A lightweight, evasion-focused Command and Control framework designed for red team operations. built up using http only connection with custom body encryption between server and implant. it provides a offensive and defensive way to manage remote agents bypassing AV and AMSI using only <b>HTA(Html Application)</b></p>
             
             <div class="img-container">
                 <img src="https://raw.githubusercontent.com/xen-i0/xenc2/refs/heads/main/main_menu.png" alt="C2 Main Menu">
                 <div class="img-note">This is what you'll see when you first fire it up.</div>
             </div>
             
-            <p>We use HTA payloads as the primary entry point. They're old school, but with the right obfuscation, they still glide right past most modern defenses.</p>
+            <p>We use HTA with VBScript as the primary implant. Efficent for bypassing modern defenses Windows Defender and AMSI</p>
         </section>
 
         <section id="listeners" class="content-section">
@@ -262,7 +263,7 @@
         </section>
 
         <div class="disclaimer">
-            <strong>Legal Note:</strong> Use this responsibly. This is for authorized penetration testing only. Stay ethical.
+            <strong>Friendly Reminder:</strong> Don't be a jerk. Use this for unauthorized testing only. lolllll.
         </div>
     </main>
 </div>
