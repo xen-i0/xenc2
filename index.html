@@ -132,15 +132,25 @@
             overflow-x: auto;
         }
 
-        /* Image Note Boxes */
-        .img-placeholder {
-            border: 2px dashed #30363d;
-            background: #0d1117;
-            padding: 60px 20px;
-            text-align: center;
-            border-radius: 12px;
-            margin: 30px 0;
-            width: 950px
+        .img-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 35px 0;
+            flex-direction: column;
+        }
+
+        .img-container img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        }
+
+        .img-note {
+            margin-top: 12px;
+            font-size: 0.85rem;
             color: #58a6ff;
             font-style: italic;
         }
@@ -172,9 +182,10 @@
         <section id="home" class="content-section active">
             <h1>Introduction</h1>
             <p>Welcome to the documentation. I built this framework to solve a specific problem: keeping C2 traffic secure and hard to fingerprint. By moving away from standard HTTP and using Mutual TLS, we ensure the infrastructure only talks to who it's supposed to.</p>
-            
-            <div class="img-placeholder"><img src="https://raw.githubusercontent.com/xen-i0/xenc2/refs/heads/main/main_menu.png"</div>
-            
+           <div class="img-container">
+                <img src="https://raw.githubusercontent.com/xen-i0/xenc2/refs/heads/main/main_menu.png" alt="Main Menu">
+                <div class="img-note">Main interface showing the initial menu state.</div>
+            </div>
             
         </section>
 
