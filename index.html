@@ -3,8 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="icon" type="image/png" sizes="16x16" href="https://raw.githubusercontent.com/xen-i0/xenc2/refs/heads/main/black-red-darth-vader-head-sticker-cover-removebg-preview.png" crossorigin="anonymous">
-    <title>XEN C2 Docs</title>
+    <title>mTLS C2 Documentation</title>
     <style>
         :root {
             --bg-main: #0b0e14;
@@ -20,17 +19,20 @@
             margin: 0;
             padding: 0;
             height: 100%;
+            width: 100%;
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
             background-color: var(--bg-main);
             color: var(--text-primary);
+            overflow: hidden; 
         }
 
         .container {
             display: flex;
             height: 100vh;
+            width: 100vw;
         }
 
-        /* Side Navigation */
+        /* Fixed Sidebar */
         aside {
             width: 280px;
             background-color: var(--bg-sidebar);
@@ -38,6 +40,8 @@
             display: flex;
             flex-direction: column;
             padding: 24px 0;
+            flex-shrink: 0;
+            z-index: 10;
         }
 
         .logo {
@@ -55,7 +59,7 @@
         }
 
         .nav-item {
-            padding: 10px 24px;
+            padding: 12px 24px;
             cursor: pointer;
             display: block;
             color: var(--text-secondary);
@@ -71,22 +75,33 @@
 
         .nav-item.active {
             color: var(--accent);
-            border-right: 2px solid var(--accent);
+            border-right: 3px solid var(--accent);
             background: rgba(47, 129, 247, 0.1);
         }
 
-        /* Main Content Area */
+        /* Main Content - This is the ONLY part that scrolls */
         main {
             flex-grow: 1;
             overflow-y: auto;
-            padding: 40px 80px;
-            scroll-behavior: smooth;
+            padding: 60px 80px;
+            height: 100vh;
+            box-sizing: border-box;
+        }
+
+        /* Hide scrollbar for a cleaner look while keeping functionality */
+        main::-webkit-scrollbar {
+            width: 6px;
+        }
+        main::-webkit-scrollbar-thumb {
+            background-color: var(--border-color);
+            border-radius: 10px;
         }
 
         .content-section {
-            display: none; /* Hidden by default */
-            max-width: 900px;
-            animation: fadeIn 0.3s ease;
+            display: none;
+            max-width: 850px;
+            margin: 0 auto;
+            animation: fadeIn 0.25s ease-out;
         }
 
         .content-section.active {
@@ -94,49 +109,20 @@
         }
 
         @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
+            from { opacity: 0; transform: translateY(8px); }
             to { opacity: 1; transform: translateY(0); }
         }
 
-        h1 { font-size: 2.2rem; margin-top: 0; }
-        h2 { font-size: 1.5rem; margin-top: 30px; color: var(--accent); }
+        h1 { font-size: 2.2rem; margin-top: 0; color: #fff; }
+        h2 { font-size: 1.5rem; margin-top: 40px; color: var(--accent); }
+        p { line-height: 1.8; color: var(--text-secondary); font-size: 1.05rem; }
 
-        p { line-height: 1.7; color: var(--text-secondary); font-size: 1.05rem; }
-
-        /* Tables */
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin: 20px 0;
-            background: #161b22;
-            border-radius: 8px;
-            overflow: hidden;
-        }
-
-        th, td {
-            padding: 14px;
-            text-align: left;
-            border-bottom: 1px solid var(--border-color);
-        }
-
-        th { background: #21262d; color: #fff; font-size: 0.9rem; text-transform: uppercase; }
-
-        /* Code Blocks */
-        pre {
-            background: var(--code-bg);
-            padding: 16px;
-            border-radius: 8px;
-            border: 1px solid var(--border-color);
-            color: #79c0ff;
-            font-size: 0.9rem;
-            overflow-x: auto;
-        }
-
+        /* Centered Image */
         .img-container {
             display: flex;
             justify-content: center;
             align-items: center;
-            margin: 35px 0;
+            margin: 40px 0;
             flex-direction: column;
         }
 
@@ -145,22 +131,56 @@
             height: auto;
             border-radius: 8px;
             border: 1px solid var(--border-color);
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.6);
         }
 
         .img-note {
-            margin-top: 12px;
+            margin-top: 15px;
             font-size: 0.85rem;
-            color: #58a6ff;
-            font-style: italic;
+            color: var(--accent);
+            opacity: 0.8;
         }
 
+        .placeholder-box {
+            border: 1px dashed var(--border-color);
+            padding: 50px;
+            border-radius: 8px;
+            text-align: center;
+            color: var(--text-secondary);
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        pre {
+            background: var(--code-bg);
+            padding: 20px;
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+            color: #79c0ff;
+            font-family: 'Consolas', 'Monaco', monospace;
+            overflow-x: auto;
+            margin: 25px 0;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 30px 0;
+            background: #161b22;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        th, td { padding: 16px; border-bottom: 1px solid var(--border-color); text-align: left; }
+        th { background: #21262d; color: #fff; font-weight: 600; }
+
         .disclaimer {
-            background: rgba(255, 165, 0, 0.1);
-            border-left: 4px solid orange;
-            padding: 15px;
-            margin-top: 50px;
-            font-size: 0.9rem;
+            margin-top: 80px;
+            padding: 24px;
+            background: rgba(248, 81, 73, 0.05);
+            border-left: 4px solid #f85149;
+            color: #f85149;
+            border-radius: 4px;
         }
     </style>
 </head>
@@ -168,111 +188,98 @@
 
 <div class="container">
     <aside>
-        <div class="logo">XEN C2</div>
+        <div class="logo">mTLS C2</div>
         <nav>
-            <a href="#" class="nav-item active" onclick="showSection('home')">Overview</a>
-            <a href="#" class="nav-item" onclick="showSection('listeners')">Listeners</a>
-            <a href="#" class="nav-item" onclick="showSection('generate')">Payload Generation</a>
-            <a href="#" class="nav-item" onclick="showSection('sessions')">Active Sessions</a>
-            <a href="#" class="nav-item" onclick="showSection('pivoting')">Pivoting & P2P</a>
+            <a href="#" class="nav-item active" onclick="showSection('home', event)">Overview</a>
+            <a href="#" class="nav-item" onclick="showSection('listeners', event)">Listeners</a>
+            <a href="#" class="nav-item" onclick="showSection('generate', event)">Payload Generation</a>
+            <a href="#" class="nav-item" onclick="showSection('sessions', event)">Active Sessions</a>
+            <a href="#" class="nav-item" onclick="showSection('pivoting', event)">Pivoting & P2P</a>
         </nav>
     </aside>
 
     <main id="main-content">
         <section id="home" class="content-section active">
-            <h1>Introduction</h1>
-            <p>Welcome to the documentation. I built this framework to solve a specific problem: keeping C2 traffic secure and hard to fingerprint. By moving away from standard HTTP and using Mutual TLS, we ensure the infrastructure only talks to who it's supposed to.</p>
-           <div class="img-container">
-                <img src="https://raw.githubusercontent.com/xen-i0/xenc2/refs/heads/main/main_menu.png" alt="Main Menu">
-                <div class="img-note">Main interface showing the initial menu state.</div>
+            <h1>Getting Started</h1>
+            <p>Hey there. This is a tool I put together for red teamers who need a simple, reliable way to manage agents without tripping every alarm in the building. It uses mTLS, so even if a blue teamer finds your IP, they can't see what's going on inside the tunnel.</p>
+            
+            <div class="img-container">
+                <img src="https://raw.githubusercontent.com/xen-i0/xenc2/refs/heads/main/main_menu.png" alt="C2 Main Menu">
+                <div class="img-note">This is what you'll see when you first fire it up.</div>
             </div>
             
+            <p>We use HTA payloads as the primary entry point. They're old school, but with the right obfuscation, they still glide right past most modern defenses.</p>
         </section>
 
         <section id="listeners" class="content-section">
-            <h1>Listeners</h1>
-            <p>Listeners handle the incoming connections from your agents. Think of them as the "ear" of your server.</p>
+            <h1>Managing Listeners</h1>
+            <p>You need a place for your agents to call home. Setting up a listener is the first thing you'll do in any operation.</p>
             
-            <div class="img-placeholder">[ NOTE: Insert Screenshot of the terminal running 'mtls list' showing active ports here ]</div>
+            <div class="img-container">
+                <div class="placeholder-box">image here: screenshot showing 'mtls list' with active listeners</div>
+            </div>
 
-            <h2>Usage</h2>
-            <p>You can start a listener on any port. If you're doing a real operation, stick to 443 (HTTPS) to blend in.</p>
             <table>
                 <thead>
-                    <tr>
-                        <th>Command</th>
-                        <th>Function</th>
-                    </tr>
+                    <tr><th>Command</th><th>What it does</th></tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td><code>mtls http &lt;ip&gt; &lt;port&gt;</code></td>
-                        <td>Starts a standard HTTP listener.</td>
-                    </tr>
-                    <tr>
-                        <td><code>mtls https &lt;ip&gt; &lt;port&gt;</code></td>
-                        <td>Starts an mTLS encrypted listener (Recommended).</td>
-                    </tr>
+                    <tr><td><code>mtls list</code></td><td>Checks all current listening ports.</td></tr>
+                    <tr><td><code>mtls https [IP] [Port]</code></td><td>Starts a secure mTLS listener.</td></tr>
                 </tbody>
             </table>
         </section>
 
         <section id="generate" class="content-section">
             <h1>Payload Generation</h1>
-            <p>The <code>generate</code> command creates the initial vector. Currently, the framework focuses on HTAs because they are incredibly effective at bypassing AMSI when obfuscated properly.</p>
+            <p>This is the fun part. When you generate an agent, we apply polymorphic changes to the code. This means every time you run the command, the file looks different to an AV scanner.</p>
             
-            <div class="img-placeholder">[ NOTE: Insert Screenshot of the obfuscated HTA source code vs the raw code here ]</div>
+            <pre>generate 1.1.1.1 443 update.hta --obfuscate --sleep 45 15</pre>
 
-            <h2>Evasion Options</h2>
-            <p>When you generate a payload, don't just use the defaults. Add some noise:</p>
-            <pre>generate 192.168.1.10 443 setup.hta --obfuscate --sleep 60 20</pre>
-            <p>The <code>--sleep</code> flag sets a 60-second callback with a 20% jitter, making your traffic patterns look human and non-periodic.</p>
+            <div class="img-container">
+                <div class="placeholder-box">image here: showing the generation process and the success message</div>
+            </div>
         </section>
 
         <section id="sessions" class="content-section">
             <h1>Active Sessions</h1>
-            <p>This is where you see your progress. Once a target executes your HTA, they'll pop up here.</p>
+            <p>When a target clicks, they'll show up in your sessions list. You get the hostname, internal IP, and the user context immediately.</p>
 
-            <div class="img-placeholder">[ NOTE: Insert Screenshot of the 'sessions' table showing active agents and system info ]</div>
+            <div class="img-container">
+                <div class="placeholder-box">image here: your 'sessions' table full of compromised targets</div>
+            </div>
 
-            <p>To start working on a machine, use the <code>interact</code> command followed by the ID number. This drops you into a sub-shell where you can run commands directly on the target.</p>
-            
-            <pre>interact 1</pre>
+            <p>Type <code>interact 1</code> to dive into that specific machine. From there, you can run commands, take screenshots, or move laterally.</p>
         </section>
 
         <section id="pivoting" class="content-section">
-            <h1>Networking & Pivoting</h1>
-            <p>Moving laterally is key. If you land on a workstation that has access to an internal server you want, you can pivot your traffic through that agent.</p>
-
-            <div class="img-placeholder">[ NOTE: Insert Diagram of a network pivot: C2 -> External Agent -> Internal Agent via SMB ]</div>
-
-            <h2>SMB Links</h2>
-            <p>For air-gapped systems, use the <code>connect</code> command to daisy-chain agents via named pipes. This keeps all traffic internal until it reaches your "Edge" agent.</p>
+            <h1>Pivoting & P2P</h1>
+            <p>Don't get stuck on one machine. If you find a server that's disconnected from the web, use your existing session to tunnel into it via SMB pipes.</p>
+            
+            <div class="img-container">
+                <div class="placeholder-box">image here: a diagram showing how traffic flows from a hidden agent to your C2</div>
+            </div>
         </section>
 
         <div class="disclaimer">
-            <strong>Friendly Reminder:</strong> Don't be a jerk. Use this for unauthorized testing only. lolllll.
+            <strong>Legal Note:</strong> Use this responsibly. This is for authorized penetration testing only. Stay ethical.
         </div>
     </main>
 </div>
 
 <script>
-    function showSection(sectionId) {
-        // Hide all sections
-        const sections = document.querySelectorAll('.content-section');
-        sections.forEach(s => s.classList.remove('active'));
+    function showSection(sectionId, event) {
+        event.preventDefault();
+        
+        // Hide all sections and remove active class from nav
+        document.querySelectorAll('.content-section').forEach(s => s.classList.remove('active'));
+        document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
 
-        // Deactivate all nav items
-        const navItems = document.querySelectorAll('.nav-item');
-        navItems.forEach(n => n.classList.remove('active'));
-
-        // Show the selected section
+        // Show the one we clicked
         document.getElementById(sectionId).classList.add('active');
-
-        // Highlight the clicked nav item
         event.currentTarget.classList.add('active');
         
-        // Scroll to top of main content
+        // Reset scroll position to top when switching
         document.getElementById('main-content').scrollTop = 0;
     }
 </script>
