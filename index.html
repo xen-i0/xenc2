@@ -298,8 +298,9 @@
 
         <section id="sessions" class="content-section">
             <h1>Active Sessions</h1>
-            <p>When a target clicks, they'll show up in your sessions list. You get the hostname, internal IP, and the user context here where you can interact/use with that session.</p>
-
+            <p>Session in this case means every agents which already connected to the C2 server. It shows the agent info and session id which helps to task the agent. additionally there are hostname, internal IP, and the user context here where you can interact/use with that session.</p>
+            <p>it uses <b>SQLite with a WAL(Write-Ahead Logging)</b> which is currently used by most advanced C2 servers</p>
+            
             <pre>interact {port} or {sid} </pre> 
             <p>To dive into that specific machine. From there, you can run commands, take screenshots, or move laterally.</p>
 
