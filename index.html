@@ -249,7 +249,47 @@
             <h1>Payload Generation</h1>
             <p>This is the fun part. When you generate an agent, we apply polymorphic changes to the code. This means every time you run the command, the file looks different to an AV scanner.</p>
             
-            <pre>generate 1.1.1.1 443 update.hta --obfuscate --sleep 45 15</pre>
+            <pre>generate --host --lport --save --obfuscate --canary [domain] --sleep <s/j> --tunnel </pre>
+
+            <h2>Implant Options</h2>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Option</th>
+                            <th>Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>--host</strong></td>
+                            <td>A host for the http callback and the main C2 server</td>
+                        </tr>
+                        <tr>
+                            <td><strong>--port</strong></td>
+                            <td>A port to listen the implant connection</td>
+                        </tr>
+                        <tr>
+                            <td><strong>--save</strong></td>
+                            <td>save the imaplant to specific folder</td>
+                        </tr>
+                        <tr>
+                            <td><strong>--canary [domain]</strong></td>
+                            <td>Check sandbox, By default implant generated with a random domain but if you have you can put it here</td>
+                        </tr>
+                         <tr>
+                            <td><strong>--obfuscate</strong></td>
+                            <td>enable Polymorphic Code Signing. it prevents hash based detection</td>
+                        </tr>
+                         <tr>
+                            <td><strong>--sleep[s]/[j]</strong></td>
+                            <td><b>s or sleep</b> flag sets the "heartbeat" of the implant and <b>j or jitter</b> sets the randomness of the timing</td>
+                        </tr>
+                        <tr>
+                            <td><strong>--tunnel</strong></td>
+                            <td>utilizes NGROK to tunnel for those who dont have a VPS</td>
+                        </tr>
+                    </tbody>
+                </table>
 
             <div class="img-container">
                 <div class="placeholder-box">image here: showing the generation process and the success message</div>
